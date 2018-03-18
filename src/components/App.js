@@ -82,7 +82,7 @@ class App extends React.Component {
     // 1. take a copy of state
     const order = { ...this.state.order };
     // 2. Either add to the order, or update the number in our order
-    order[key] = order[key];
+    delete order[key];
     // 3. Call setState to update our state object
     this.setState({ order });
   };
@@ -112,7 +112,7 @@ class App extends React.Component {
         <Inventory
           addFish={this.addFish}
           updateFish={this.updateFish} 
-          deleteFish={this.updateFish}                   
+          deleteFish={this.deleteFish}                   
           loadSampleFishes={this.loadSampleFishes}
           fishes={this.state.fishes}
         />

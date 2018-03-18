@@ -9,7 +9,7 @@ class EditFishForm extends React.Component {
 			...this.props.fish, 
 			[event.currentTarget.name]: event.currentTarget.value
 			};
-			this.props.updateFish(this.props.index, updatedFish)
+			this.props.updateFish(this.props.index, updatedFish);
 	};
 	render() {
 		return (
