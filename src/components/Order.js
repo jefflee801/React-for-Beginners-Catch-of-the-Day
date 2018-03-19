@@ -1,53 +1,60 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { formatPrice } from "../helpers";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 class Order extends React.Component {
+  static propTypes = {
+    fishes: PropTypes.object,
+    order: PropTypes.object,
+    removeFromOrder: PropTypes.func
+  };
+  
 	renderOrder = (key) => {
 		const fish = this.props.fishes[key];
-  		const count = this.props.order[key];
-  		const isAvaliable = fish && fish.status === 'avaliable';
-  		const transitionOptions = {
-        classNames: "order",
-        key,
-        timeout: { enter: 500, exit: 500 }
-      };
+  	const count = this.props.order[key];
+  	const isAvaliable = fish && fish.status === 'avaliable';
+		const transitionOptions = {
+      classNames: "order",
+      key,
+      timeout: { enter: 500, exit: 500 }
+    };
       //make sure the fish is avaliable loaded before we continue
-      if(!fish) return null;
+    if(!fish) return null;
 
-      if(!isAvaliable) {
-  			return (
-          <CSSTransition { ...transtionOptions}>
-    				<li key={key}>
-    				  Sorry {fish ? fish.name : "fish"} is no longer avaliable
-    				</li>
-          </CSSTransition>
-  			);
-  		}
+    if(!isAvaliable) {
+  		return (
+        <CSSTransition {...transitionOptions}>
+    			<li key={key}>
+    			  Sorry {fish ? fish.name : "fish"} is no longer avaliable
+    			</li>
+        </CSSTransition>
+  		);
+  	}
 
 		return (
-      <CSSTransition { ...transtionOptions}>
+      <CSSTransition {...transitionOptions}>
   			<li key={key}>
           <span>
             <TransitionGroup component="span" className="count">
-            <CSSTransition
-              className="count"
-    			     key={count}
-               setTimeout={{ enter: 500, exit: 500 }}
-                >
-                span>{count}</span>
-              </CSSTranstion>
-             </TransitionGroup>
+              <CSSTransition
+                className="count"
+      			    key={count}
+                setTimeout={{ enter: 500, exit: 500 }}
+              >
+                <span>{count}</span>
+              </CSSTransition>
+            </TransitionGroup>
               lbs {fish.name}
     			    {formatPrice(count * fish.price)}
               <button onClick={() => this.props.removeFromOrder(key)}>
                 &times;
               </button>
             </span>
-  			</li>
-      </CSSTransition>
-		);
-	};
+  			  </li>
+        </CSSTransition>
+		  );
+	 };
 
   render() {
   	const orderIds = Object.keys(this.props.order);
